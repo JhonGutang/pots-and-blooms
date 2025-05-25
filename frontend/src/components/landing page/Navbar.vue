@@ -26,6 +26,9 @@ const navlinks = [
   {
     label: "Contact Us",
     link: "#",
+  },{
+    label: "Login",
+    link: "/auth",
   },
 ];
 </script>

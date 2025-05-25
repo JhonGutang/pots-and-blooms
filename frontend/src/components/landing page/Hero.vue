@@ -2,7 +2,7 @@
   <div class="h-[100vh] hero flex flex-col justify-center px-15">
     <div class="space-y-3">
       <div class="text-3xl">Flowers</div>
-      <button class="py-2 px-4 bg-pink-500 text-white rounded-lg cursor-pointer">Order Now</button>
+      <v-btn color="pink-darken-1">Order Now</v-btn>
     </div>
   </div>
 </template>

@@ -3,3 +3,10 @@ export interface FlowerType {
     description: string,
     price: number
 }
+
+
+export interface OccassionsType {
+    name: string,
+    flowerImg: string,
+    description: string,
+}

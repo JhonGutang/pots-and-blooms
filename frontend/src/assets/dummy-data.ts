@@ -50,3 +50,12 @@ export const flowers = [
     price: 140
   }
 ];
+
+
+
+export const occassions = [
+  { name: 'For Weddings', flowerImg: '', description: 'Sample'},
+  { name: 'For Anniversaries', flowerImg: '', description: 'Sample'},
+  { name: 'For Birthdays', flowerImg: '', description: 'Sample'},
+  { name: 'For Funerals', flowerImg: '', description: 'Sample'},
+]

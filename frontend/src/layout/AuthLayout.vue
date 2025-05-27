@@ -4,9 +4,10 @@
       <div class="text-2xl">Pots and Blossoms</div>
       <router-link to="/">Return Home</router-link>
     </div>
-    <div class="w-[35vw] border border-pink-800 py-5 px-3 rounded-lg  h-[80vh] flex items-center shadow-xl">
+    <v-card class="w-[35vw] pa-10">
       <slot name="content"></slot>
-    </div>
+    </v-card>
+    
   </div>
 </template>
 

@@ -5,19 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use App\Repositories\CustomerRepository;
+use App\Services\CustomerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
-    private $customerRepo;
-    
-    public function __construct(CustomerRepository $customerRepository) {
-        $this->customerRepo = $customerRepository;
+    protected $customerService;
+    public function __construct(CustomerService $customerService) {
+        $this->customerService = $customerService;
     }
-
-    public function index() {
+     public function index() {
         $customers = Customer::all();
         return response()->json(['data' => $customers]);
     }
@@ -35,16 +33,10 @@ class CustomerController extends Controller
 
     public function login(Request $request){
 
-        $customer = $this->customerRepo->getCustomerByUsernameOrEmail($request->usernameOrEmail);
+        $userData = $this->customerService->attemptLogin($request);
 
-        if (!$customer || !Hash::check($request->password, $customer->password)) {
-            return response()->json(['message' => 'Invalid Credentials'], status: 401);
-        }
-
-        $token = $customer->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['message' => "Valid Credentials, Welcome {$customer->full_name}",
-                                        'token' => $token], 200);
+        return response()->json(['message' => "Valid Credentials, Welcome {$userData['data']->full_name}",
+                                        'token' => $userData['token']], 200);
     }
 
     public function update(UpdateCustomerRequest $request, Customer $customer) {

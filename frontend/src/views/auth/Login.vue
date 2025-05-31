@@ -4,12 +4,10 @@
         <div class="text-2xl mb-3">Login to look for beautiful Flowers</div>
         <form action="post" @submit.prevent="handleSubmit" class="w-[100%] p-10">
             <div class="form-group">
-                <label for="username">Username / Email</label>
-                <v-text-field density="comfortable" type="text" name="username" id="username" placeholder="johndoe@gmail.com / johndoe123"/>
+                <v-text-field variant="outlined" label="Username / Email" density="comfortable" type="text" v-model="userCredentials.usernameOrEmail" placeholder="johndoe@gmail.com / johndoe123"/>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <v-text-field density="comfortable" type="password" name="password" id="password"></v-text-field>
+                <v-text-field variant="outlined" label="Password" density="comfortable" v-model="userCredentials.password" type="password"></v-text-field>
             </div>
             <v-btn type="submit" block color="pink-lighten-1" size="large">Login</v-btn>
         </form>
@@ -20,8 +18,22 @@
 
 <script setup lang="ts">
 import AuthLayout from '@/layout/AuthLayout.vue';
-const handleSubmit = () => {
-    console.log('hello');
+import axios from 'axios';
+import { ref } from 'vue';
+
+const userCredentials = ref({
+    "usernameOrEmail": null,
+    "password": null,
+})
+
+const handleSubmit = async() => {
+
+    try {
+        const response = await axios.post('login', userCredentials.value);
+        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+    }
 }
 </script>
 

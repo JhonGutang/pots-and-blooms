@@ -1,5 +1,5 @@
 <template>
-  <v-container class="h-[100vh] flex flex-col gap-12">
+  <v-container class="h-[100vh] flex flex-col gap-12 bg-white">
     <div class="text-3xl text-center font-weight-bold">About Us</div>
     <div class="text-xl text-center">
       At Pots and Blooms, we believe that flowers are more than just

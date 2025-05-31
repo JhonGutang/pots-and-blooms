@@ -6,7 +6,7 @@ import AboutUs from '@/components/landing page/AboutUs.vue';
 </script>
 
 <template>
-  <main>
+  <main class="bg-white">
     <Navbar/>
     <Hero/>
     <FeaturedFlowers/>

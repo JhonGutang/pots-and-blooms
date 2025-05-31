@@ -18,8 +18,11 @@
 
 <script setup lang="ts">
 import AuthLayout from '@/layout/AuthLayout.vue';
+import { useUserStore } from '@/stores/User';
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+
+const userStore = useUserStore();
 
 const userCredentials = ref({
     "usernameOrEmail": null,
@@ -30,11 +33,15 @@ const handleSubmit = async() => {
 
     try {
         const response = await axios.post('login', userCredentials.value);
+        userStore.setToken(response.data.token)
+
+        console.log(userStore.token);
         console.log(response.data);
     } catch (error) {
         console.error(error);
     }
 }
+
 </script>
 
 <style scoped>

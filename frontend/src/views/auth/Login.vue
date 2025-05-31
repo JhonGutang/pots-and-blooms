@@ -43,8 +43,6 @@ const userCredentials = ref<CustomerType>({
     "password": "",
 })
 
-
-
 const handleSubmit = async () => {
     try {
         const response = await loginAttempt(userCredentials.value);

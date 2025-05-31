@@ -16,7 +16,7 @@
 const navlinks = [
   {
     label: "Home",
-    link: "/",
+    link: "/landing-page",
   },
   {
     label: "Flowers",

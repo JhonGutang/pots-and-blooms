@@ -9,8 +9,5 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/customer', [CustomerController::class, 'index']);
-Route::post('/customer', [CustomerController::class, 'create']);
-Route::patch('/customer/{customer}', [CustomerController::class, 'update']);
-Route::delete('customer/{customer}', [CustomerController::class, 'destroy']);
+Route::apiResource('customers', CustomerController::class);
 Route::post('login', [CustomerController::class, 'login']);

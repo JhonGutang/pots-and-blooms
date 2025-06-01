@@ -16,11 +16,11 @@ class CustomerController extends Controller
         $this->customerService = $customerService;
     }
      public function index() {
-        $customers = Customer::all();
+        $customers = Customer::select('full_name', 'email')->get();
         return response()->json(['data' => $customers]);
     }
 
-    public function create (PostCustomerRequest $request) {
+    public function store (PostCustomerRequest $request) {
         $validated = $request->validated();
         $validated['password'] = Hash::make($validated['password']);
         $customer = Customer::create($validated);
@@ -32,9 +32,7 @@ class CustomerController extends Controller
     }
 
     public function login(Request $request){
-
         $userData = $this->customerService->attemptLogin($request);
-
         return response()->json(['message' => "Valid Credentials, Welcome {$userData['data']->full_name}",
                                         'token' => $userData['token']], 200);
     }

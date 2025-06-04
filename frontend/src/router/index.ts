@@ -4,7 +4,8 @@ import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
 import Flowers from "@/views/FlowerSection.vue";
 import NotAuthorized from "@/views/NotAuthorized.vue";
-
+import Dashboard from "@/views/admin/Dashboard.vue";
+import PostFlower from "@/views/admin/PostFlower.vue";
 import { useUserStore } from "@/stores/User";
 import Home from "@/views/Home.vue";
 
@@ -42,16 +43,29 @@ const router = createRouter({
       path: "/not-authorized",
       name: "Not Authorized",
       component: NotAuthorized,
-    }, {
-      path: "/", name: "Home", component: Home, beforeEnter: (to, from, next) => {
-        const token = useUserStore().token
+    },
+    {
+      path: "/",
+      name: "Home",
+      component: Home,
+      beforeEnter: (to, from, next) => {
+        const token = useUserStore().token;
 
-        if(token) {
+        if (token) {
           next();
         } else {
-          next('/auth')
+          next("/auth");
         }
-      }
+      },
+    },
+    {
+      path: "/admin/dashboard",
+      name: "Admin Dashboard",
+      component: Dashboard,
+    }, {
+      path: "/admin/post-flower",
+      name: "Admin Post Flower",
+      component: PostFlower,
     }
   ],
 });

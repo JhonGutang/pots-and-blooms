@@ -1,7 +1,7 @@
 <template>
     <AuthLayout>
         <template #content>
-            <div class="text-2xl mb-3">Login to look for beautiful Flowers</div>
+            <div class="text-xl mb-5 text-center font-weight-bold">Login to look for beautiful Flowers</div>
             <form action="post" @submit.prevent="handleSubmit" class="w-[100%] p-10">
                 <div class="form-group">
                     <v-text-field variant="outlined" label="Username / Email" density="comfortable" type="text"
@@ -27,8 +27,8 @@
 <script setup lang="ts">
 import AuthLayout from '@/layout/AuthLayout.vue';
 import { useUserStore } from '@/stores/User';
-import type { CustomerType } from '@/types/Customer';
-import { loginAttempt } from '@/services/useAuth';
+import type { CustomerLoginType } from '@/types/Customer';
+import { authService } from '@/services/authService';
 import { useSnackbar } from '@/composables/useSnackbar';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -36,16 +36,16 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const userStore = useUserStore();
 const {snackbar, triggerSnackbar} = useSnackbar()
+const { login } = authService()
 
-
-const userCredentials = ref<CustomerType>({
+const userCredentials = ref<CustomerLoginType>({
     "usernameOrEmail": "",
     "password": "",
 })
 
 const handleSubmit = async () => {
     try {
-        const response = await loginAttempt(userCredentials.value);
+        const response = await login(userCredentials.value);
         userStore.setToken(response.data.token)
         triggerSnackbar('Logged In Successfully', 'green')
         setTimeout(() => {

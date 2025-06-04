@@ -1,14 +1,21 @@
 <template>
-  <div class="flex flex-col items-center">
-    <div class="w-[100vw] py-5 px-8 flex justify-between items-center">
+  <v-container class="px-0">
+    <div class="px-8 flex justify-between  items-center">
       <div class="text-2xl">Pots and Blossoms</div>
-      <router-link to="/landing-page">Return Home</router-link>
+      <router-link to="/landing-page">
+        <v-btn variant="text">
+          Return Home
+        </v-btn>
+      </router-link>
     </div>
-    <v-card class="w-[35vw] pa-10">
-      <slot name="content"></slot>
-    </v-card>
-    
-  </div>
+    <v-container height="700" class="d-flex justify-center align-center">
+      <v-card class="w-[35vw] pa-10 rounded-lg" elevation="7">
+        <slot name="content"></slot>
+      </v-card>
+
+    </v-container>
+
+  </v-container>
 </template>
 
 <script setup></script>

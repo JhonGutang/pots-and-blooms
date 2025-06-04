@@ -5,27 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Services\CustomerAuthService;
 use App\Services\CustomerService;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
     protected $customerService;
-    public function __construct(CustomerService $customerService) {
+    protected $customerAuthService;
+    public function __construct(CustomerService $customerService, CustomerAuthService $customerAuthService) {
         $this->customerService = $customerService;
+        $this->customerAuthService = $customerAuthService;
     }
      public function index() {
-        $customers = Customer::select('full_name', 'email')->get();
+        $customers = $this->customerService->getCustomers();
         return response()->json(['data' => $customers]);
     }
 
     public function store (PostCustomerRequest $request) {
-        $validated = $request->validated();
-        $validated['password'] = Hash::make($validated['password']);
-        $customer = Customer::create($validated);
-
+        $customer = $this->customerService->createCustomer($request->validated());
         return response()->json([
             "message" => 'Created Successfully',
             "data" => $customer,
@@ -33,7 +32,7 @@ class CustomerController extends Controller
     }
 
     public function login(Request $request){
-        $userData = $this->customerService->attemptLogin($request);
+        $userData = $this->customerAuthService->attemptLogin($request);
         return response()->json(['message' => "Valid Credentials, Welcome {$userData['data']->full_name}",
                                         'token' => $userData['token']], 200);
     }
@@ -41,7 +40,7 @@ class CustomerController extends Controller
     public function update(UpdateCustomerRequest $request, Customer $customer) {
         $validated = $request->validated();
         try {
-            $customer->update($validated);
+            $this->customerService->updateCustomer($validated, $customer);
             return response()->json(['data' => $customer->fresh()]);
         } catch(Exception $error) {
             return response()->json(['message' => "Update Failed " . $error->getMessage() ], 500);
@@ -50,7 +49,7 @@ class CustomerController extends Controller
 
     public function destroy(Customer $customer) {
         try {
-            $customer->delete();
+            $this->customerService->destroyCustomer($customer);
             return response()->json(['message' => 'Deleted Succesfully'], 200);
         } catch (Exception $error) {
             return response()->json(['message' => "Deletion Failed " . $error->getMessage() ], 500);

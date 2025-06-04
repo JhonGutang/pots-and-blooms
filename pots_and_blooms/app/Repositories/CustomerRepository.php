@@ -6,7 +6,7 @@ use App\Repositories\Contracts\CustomerRepositoryInterface;
 
 class CustomerRepository implements CustomerRepositoryInterface {
 
-    public function getCustomerByUsernameOrEmail($usernameOrEmail) {
+    public function findByEmailOrFullName($usernameOrEmail) {
               return Customer::where('email', $usernameOrEmail)
                                 ->orWhere('full_name', $usernameOrEmail )
                                 ->first();

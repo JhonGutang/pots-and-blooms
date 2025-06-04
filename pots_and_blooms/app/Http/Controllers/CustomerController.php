@@ -6,6 +6,7 @@ use App\Http\Requests\PostCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Services\CustomerService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,14 +40,21 @@ class CustomerController extends Controller
 
     public function update(UpdateCustomerRequest $request, Customer $customer) {
         $validated = $request->validated();
-
-        $customer->update($validated);
-        return response()->json(['data' => $customer->fresh()]);
+        try {
+            $customer->update($validated);
+            return response()->json(['data' => $customer->fresh()]);
+        } catch(Exception $error) {
+            return response()->json(['message' => "Update Failed " . $error->getMessage() ], 500);
+        }
     }
 
     public function destroy(Customer $customer) {
-        $customer->delete();
-        return response()->json(['message' => 'Deleted Succesfully'], 200);
+        try {
+            $customer->delete();
+            return response()->json(['message' => 'Deleted Succesfully'], 200);
+        } catch (Exception $error) {
+            return response()->json(['message' => "Deletion Failed " . $error->getMessage() ], 500);
+        }
         
     }
 }

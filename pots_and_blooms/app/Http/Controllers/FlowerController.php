@@ -18,7 +18,12 @@ class FlowerController extends Controller
 
     public function index()
     {
-        //
+        $flowers = $this->flowerService->fetchAll();
+
+        return response()->json([
+            'message' => 'Fetched Successfully',
+            'data' => $flowers,
+        ], 201);
     }
 
     /**

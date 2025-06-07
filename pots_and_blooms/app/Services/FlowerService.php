@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class FlowerService {
 
-    public function fetchAll () {
+    public function getAllWithFormattedDates () {
         $flowers = Flower::all();
         foreach ($flowers as $flower) {
             $flower->created_at_formatted = $this->formatDate($flower->created_at);

@@ -18,7 +18,7 @@ class FlowerController extends Controller
 
     public function index()
     {
-        $flowers = $this->flowerService->fetchAll();
+        $flowers = $this->flowerService->getAllWithFormattedDates();
 
         return response()->json([
             'message' => 'Fetched Successfully',

@@ -6,18 +6,18 @@
       </v-card-title>
 
       <v-card-text>
-        <v-form @submit.prevent>
-          <v-text-field label="Name" prepend-inner-icon="mdi-flower" variant="outlined" density="comfortable"
-            class="mb-4" />
-
-          <v-text-field label="Description" prepend-inner-icon="mdi-text" variant="outlined" density="comfortable"
-            class="mb-4" />
-
-          <v-text-field label="Price" prepend-inner-icon="mdi-currency-usd" type="number" variant="outlined"
+        <v-form @submit.prevent="submit">
+          <v-text-field label="Name" v-model="postFlower.name" prepend-inner-icon="mdi-flower" variant="outlined"
             density="comfortable" class="mb-4" />
 
+          <v-textarea label="Description" v-model="postFlower.description" prepend-inner-icon="mdi-text"
+            variant="outlined" density="comfortable" class="mb-4" />
+
+          <v-text-field label="Price" v-model="postFlower.price" prepend-inner-icon="mdi-currency-usd" type="number"
+            variant="outlined" density="comfortable" class="mb-4" />
+
           <v-file-input label="Upload Image" prepend-inner-icon="mdi-image" variant="outlined" density="comfortable"
-            class="mb-6" prepend-icon="" />
+            class="mb-6" prepend-icon="" v-model="postFlower.imageFile" :show-size="true" accept="image/*" />
 
           <div class="button-group">
             <v-btn type="submit" color="pink-darken-1" height="45" block class="text-white">
@@ -36,6 +36,44 @@
     </v-card>
   </v-container>
 </template>
+
+<script setup lang="ts">
+import { flowerService } from '@/services/flowerService';
+import type { FlowerType } from '@/types/flower';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const { storeFlower } = flowerService()
+const router = useRouter()
+const postFlower = ref < FlowerType > ({
+  name: '',
+  description: '',
+  price: 0,
+  imageFile: null,
+})
+
+const submit = async () => {
+  const formData = new FormData();
+  formData.append('name', postFlower.value.name);
+  formData.append('description', postFlower.value.description);
+  formData.append('price', postFlower.value.price.toString())
+
+  if (postFlower.value.imageFile) {
+    formData.append('image', Array.isArray(postFlower.value.imageFile) ? postFlower.value.imageFile[0] : postFlower.value.imageFile);
+  }
+
+  try {
+    await storeFlower(formData);
+    setTimeout(() => {
+      router.push('/admin/dashboard');
+    }, 1500);
+  } catch (error) {
+    console.error(error);
+  }
+
+}
+
+</script>
 
 <style scoped>
 .form-container {

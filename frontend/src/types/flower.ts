@@ -1,7 +1,8 @@
 export interface FlowerType {
     name: string,
     description: string,
-    price: number
+    price: number,
+    imageFile?: File | null,
 }
 
 

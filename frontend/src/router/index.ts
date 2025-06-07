@@ -62,11 +62,12 @@ const router = createRouter({
       path: "/admin/dashboard",
       name: "Admin Dashboard",
       component: Dashboard,
-    }, {
+    },
+    {
       path: "/admin/post-flower",
       name: "Admin Post Flower",
       component: PostFlower,
-    }
+    },
   ],
 });
 

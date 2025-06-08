@@ -11,6 +11,9 @@ class FlowerService {
         $flowers = Flower::all();
         foreach ($flowers as $flower) {
             $flower->created_at_formatted = $this->formatDate($flower->created_at);
+            if (!empty($flower->image_path)) {
+                $flower->image_path = 'http://127.0.0.1:8000/storage/' . ltrim($flower->image_path, '/');
+            }
             unset($flower->created_at, $flower->updated_at);
         }
         return $flowers;

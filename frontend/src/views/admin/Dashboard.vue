@@ -21,8 +21,7 @@
 <script setup lang="ts">
 import Analytics from '@/components/admin/Analytics.vue';
 import FlowerDisplay from '@/components/admin/FlowerDisplay.vue';
-
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 const tab = ref('flower display');
 </script>
 
